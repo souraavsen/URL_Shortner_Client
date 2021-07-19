@@ -1,4 +1,4 @@
-It is the client server of URL_Shortner application. Built with Reactjs.
+It is the client server of URL_Shortner application. Built with React.
 
 # Getting Started with Create React App
 
