@@ -56,14 +56,6 @@ const Home = (props) => {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // var a = localStorage.getItem("IfLogged_in");
-  // console.log(
-  //   "Data Passed from Login",a);
-
-  // if (localStorage.getItem("IfLogged_in")) {
-  //   window.location.reload(false);
-  //   localStorage.removeItem("IfLogged_in");
-  // }
 
   const [mainurl, setMainurl] = useState("");
   const [shorturl, setShorturl] = useState("");
@@ -101,7 +93,7 @@ const Home = (props) => {
       setLogin(false);
     }
     axios
-      .get("http://127.0.0.1:8000/api/shortedurls/", content)
+      .get("https://url-shortner-ssg.herokuapp.com/api/shortedurls/", content)
       .then(function (res) {
         setShortedurl(res.data);
       })
@@ -124,7 +116,7 @@ const Home = (props) => {
       login
         ? axios
             .post(
-              "http://127.0.0.1:8000/api/shorturl/",
+              "https://url-shortner-ssg.herokuapp.com/api/shorturl/",
               {
                 main_url: mainurl,
                 short_url: shorturl,
@@ -143,9 +135,8 @@ const Home = (props) => {
               setCopyf(false);
             })
         : axios
-            .post("http://127.0.0.1:8000/api/shorturl/", {
-              main_url: mainurl,
-              short_url: shorturl,
+            .post("https://url-shortner-ssg.herokuapp.com/api/quickshort/", {
+              main_url: mainurl
               // Without Header
             })
             .then(function (res) {
@@ -163,7 +154,7 @@ const Home = (props) => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/deleteshorturl/${id}/`, content);
+    axios.delete(`https://url-shortner-ssg.herokuapp.com/api/deleteshorturl/${id}/`, content);
     setShortedurl([...shortedurl].filter((itm) => itm.id != id));
   };
 
@@ -174,7 +165,7 @@ const Home = (props) => {
       if (itm.id === id) {
         axios
           .put(
-            `http://127.0.0.1:8000/api/editshorturl/${id}/`,
+            `https://url-shortner-ssg.herokuapp.com/api/editshorturl/${id}/`,
             {
               short_url: editData,
             },

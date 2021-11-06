@@ -66,10 +66,7 @@ export default function SignUp() {
     const data = { ...signupdata };
     data[e.target.id] = e.target.value;
     setSignupdata(data);
-    console.log("Object ", data);
-    console.log(signupdata);
   };
-  console.log("Main State", signupdata);
 
   const content = {
     content: {
@@ -83,7 +80,7 @@ export default function SignUp() {
     e.preventDefault();
     axios
       .post(
-        "http://127.0.0.1:8000/accounts/registration/",
+        "https://url-shortner-ssg.herokuapp.com/accounts/registration/",
         {
           first_name: signupdata.first_name,
           last_name: signupdata.last_name,
@@ -94,7 +91,6 @@ export default function SignUp() {
         content
       )
       .then(function (res) {
-        console.log("SUccess", res.data);
         setSuccessf(true);
         setSError(false);
         setSignupdata({
@@ -106,7 +102,6 @@ export default function SignUp() {
         });
       })
       .catch(function (error) {
-        console.log(error);
         setSError(true);
         setSuccessf(false);
       });

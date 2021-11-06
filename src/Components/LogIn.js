@@ -68,8 +68,6 @@ export default function LogIn({ setPopup, setIflogin }) {
     const data = { ...ldata };
     data[e.target.id] = e.target.value;
     setLdata(data);
-    console.log("Login Object ", data);
-    console.log(ldata);
   };
 
   const content = {
@@ -84,7 +82,7 @@ export default function LogIn({ setPopup, setIflogin }) {
     e.preventDefault();
     axios
       .post(
-        "http://127.0.0.1:8000/accounts/login/",
+        "https://url-shortner-ssg.herokuapp.com/accounts/login/",
         {
           username: ldata.username,
           password: ldata.password,
@@ -101,7 +99,6 @@ export default function LogIn({ setPopup, setIflogin }) {
         setIflogin(true);
       })
       .catch(function (error) {
-        console.log(error);
         setErrorf(true);
         setLoginf(false);
       });
@@ -113,10 +110,6 @@ export default function LogIn({ setPopup, setIflogin }) {
   //   setPopup(false);
   // }
   const location = useLocation().pathname;
-  console.log("Current Path",location);
-
-  // console.log("setLoginf", loginf);
-  // console.log("setErrorf", errorf);
 
   return (
     <Grid
