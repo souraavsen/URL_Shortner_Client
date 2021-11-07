@@ -56,7 +56,6 @@ const Home = (props) => {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-
   const [mainurl, setMainurl] = useState("");
   const [shorturl, setShorturl] = useState("");
 
@@ -136,7 +135,7 @@ const Home = (props) => {
             })
         : axios
             .post("https://url-shortner-ssg.herokuapp.com/api/quickshort/", {
-              main_url: mainurl
+              main_url: mainurl,
               // Without Header
             })
             .then(function (res) {
@@ -154,7 +153,10 @@ const Home = (props) => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`https://url-shortner-ssg.herokuapp.com/api/deleteshorturl/${id}/`, content);
+    axios.delete(
+      `https://url-shortner-ssg.herokuapp.com/api/deleteshorturl/${id}/`,
+      content
+    );
     setShortedurl([...shortedurl].filter((itm) => itm.id != id));
   };
 
@@ -342,7 +344,7 @@ const Home = (props) => {
         </form>
 
         {login && (
-          <div className='home w-screen relative py-3 sm:max-w-xl sm:mx-auto'>
+          <div className='home relative py-3 sm:max-w-xl sm:mx-auto'>
             <div className='absolute inset-0 bg-gradient-to-bl from-blue-600 to-blue-400 shadow-lg transform -skew-y-6 sm:skew-y-3 sm:-rotate-6 sm:rounded-3xl'></div>
             <div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20'>
               <div className='max-w-25xl mx-auto'>
@@ -351,7 +353,7 @@ const Home = (props) => {
                   <p className='text-4xl pl-5 font-serif'>Shorted Urls</p>
                 </div>
 
-                <table className='table-fixed rounded-xl'>
+                <table className='table-fixed  rounded-xl'>
                   <thead>
                     <tr className='bg-blue-400 rounded-lg'>
                       <th className=' p-3 text-2xl text-left border-4 mainurl bg-blue-400'>
@@ -369,123 +371,128 @@ const Home = (props) => {
                   <tbody>
                     {shortedurl.map((item, index) => {
                       return (
-                          <tr key={index} className='bg-blue-50 text-left border-b-8'>
-                            <td className='flex flex-row mainurl'>
-                              <span className='h-6 p-2 flex items-center sm:h-7'>
-                                <svg
-                                  className='flex-shrink-0 h-5 w-5 text-blue-500'
-                                  viewBox='0 0 20 20'
-                                  fill='currentColor'
-                                >
-                                  <path
-                                    fillRule='evenodd'
-                                    d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                                    clipRule='evenodd'
-                                  />
-                                </svg>
-                              </span>
-                              {item.main_url}
-                            </td>
-                            <td className='shorturl'>
-                              {editId === item.id ? (
-                                <div>
-                                  <form
-                                    onSubmit={(e) => {
-                                      handleEdit(e, item.id);
-                                    }}
-                                  >
-                                    <input
-                                      className='border-none bg-gray-400 text-lg placeholder-black'
-                                      placeholder={item.short_url}
-                                      onChange={(e) => {
-                                        setEditData(e.target.value);
-                                      }}
-                                    />
-                                    <div className='flex justify-evenly items-start p-2'>
-                                      <Button
-                                        className='focus:outline-none w-24 '
-                                        variant='contained'
-                                        color='secondary'
-                                        startIcon={<SaveIcon />}
-                                        type='submit'
-                                      >
-                                        Save
-                                      </Button>
-                                      <Button
-                                        className='focus:outline-none w-24'
-                                        variant='contained'
-                                        color='primary'
-                                        onClick={(e) => {
-                                          setEditId(null);
-                                        }}
-                                      >
-                                        Cancle
-                                      </Button>
-                                    </div>
-                                  </form>
-                                </div>
-                              ) : (
-                                <input
-                                  className='border-none focus:outline-none bg-transparent'
-                                  value={item.short_url}
-                                  readOnly='true'
+                        <tr
+                          key={index}
+                          className='bg-blue-50 text-left border-b-8'
+                        >
+                          <td className='flex flex-row mainurl'>
+                            <span className='h-6 p-2 flex items-center sm:h-7'>
+                              <svg
+                                className='flex-shrink-0 h-5 w-5 text-blue-500'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                              >
+                                <path
+                                  fillRule='evenodd'
+                                  d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
+                                  clipRule='evenodd'
                                 />
-                              )}
-                              {editId === null && (
-                                <Button
-                                  className='gobtn focus:outline-none pl-5'
-                                  variant='outlined'
-                                  size='small'
-                                  href={item.short_url}
-                                  target='__blank'
+                              </svg>
+                            </span>
+                            {item.main_url}
+                          </td>
+                          <td className='shorturl'>
+                            {editId === item.id ? (
+                              <div>
+                                <form
+                                  onSubmit={(e) => {
+                                    handleEdit(e, item.id);
+                                  }}
                                 >
-                                  Go
+                                  <input
+                                    className='border-none bg-gray-400 text-lg placeholder-black'
+                                    placeholder={item.short_url.split(
+                                      "herokuapp.com/"
+                                    )[1]}
+                                    onChange={(e) => {
+                                      setEditData(e.target.value);
+                                    }}
+                                  />
+                                  <div className='flex justify-evenly items-start p-2'>
+                                    <Button
+                                      className='focus:outline-none w-24 '
+                                      variant='contained'
+                                      color='secondary'
+                                      startIcon={<SaveIcon />}
+                                      type='submit'
+                                    >
+                                      Save
+                                    </Button>
+                                    <Button
+                                      className='focus:outline-none w-24'
+                                      variant='contained'
+                                      color='primary'
+                                      onClick={(e) => {
+                                        setEditId(null);
+                                      }}
+                                    >
+                                      Cancle
+                                    </Button>
+                                  </div>
+                                </form>
+                              </div>
+                            ) : (
+                              <input
+                                className='border-none focus:outline-none bg-transparent'
+                                value={item.short_url}
+                                readOnly='true'
+                              />
+                            )}
+                            {editId === null && (
+                              <Button
+                                className='gobtn focus:outline-none pl-5'
+                                variant='outlined'
+                                size='small'
+                                href={item.short_url}
+                                target='__blank'
+                              >
+                                Go
+                              </Button>
+                            )}
+                          </td>
+                          <td className='action flex justify-center items-center'>
+                            {editId === null && (
+                              <div className='flex my-auto justify-center items-center gap-5'>
+                                <Button
+                                  className='focus:outline-none'
+                                  variant='outlined'
+                                  color='primary'
+                                  startIcon={<EditIcon />}
+                                  onClick={() => {
+                                    setEditId(item.id);
+                                  }}
+                                >
+                                  Edit
                                 </Button>
-                              )}
-                            </td>
-                            <td className='action flex flex-col justify-center items-center'>
-                              {editId === null && (
-                                <div className='flex flex-row justify-evenly gap-5'>
-                                  <Button
-                                    className='focus:outline-none'
-                                    variant='outlined'
-                                    color='primary'
-                                    startIcon={<EditIcon />}
-                                    onClick={() => {
-                                      setEditId(item.id);
-                                    }}
-                                  >
-                                    Edit
-                                  </Button>
-                                  <Button
-                                    className=' focus:outline-none'
-                                    variant='outlined'
-                                    color='secondary'
-                                    startIcon={<DeleteIcon />}
-                                    onClick={() => {
-                                      handleDelete(item.id);
-                                    }}
-                                  >
-                                    Delete
-                                  </Button>
-                                </div>
-                              )}
-                              {/* ) : ( */}
-                              {/* <Button */}
+                                <Button
+                                  className=' focus:outline-none'
+                                  variant='outlined'
+                                  color='secondary'
+                                  startIcon={<DeleteIcon />}
+                                  onClick={() => {
+                                    handleDelete(item.id);
+                                  }}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            )}
+                            {/* ) : ( */}
+                            {/* <Button */}
 
-                              {/* //     className='focus:outline-none w-24 '
+                            {/* //     className='focus:outline-none w-24 '
                             //     variant='contained'
                             //     color='secondary'
                             //     startIcon={<SaveIcon />}
                             //     onClick={(e) => { */}
-                              {/* //       setEditf(false);
+                            {/* //       setEditf(false);
                             //     }}
                             //   >
                             //     Save
                             //   </Button>
                             // ) */}
-                            </td>
-                          </tr>
+                          </td>
+                        </tr>
                       );
                     })}
                   </tbody>

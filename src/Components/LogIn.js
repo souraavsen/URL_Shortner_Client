@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-// import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import userlogo from "../Images/userlogo.png";
-// import urlshort from "../Images/urlshort.png";
-// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Snackbar from "@material-ui/core/Snackbar";
 import { AlertTitle } from "@material-ui/lab";
 import MuiAlert from "@material-ui/lab/Alert";
 import axios from "axios";
-import { Redirect, Route, useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 import Home from "./Home";
-// import { render } from "@testing-library/react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +38,6 @@ export default function LogIn({ setPopup, setIflogin }) {
 
   const [loginf, setLoginf] = useState(false);
   const [errorf, setErrorf] = useState(false);
-
-  // const [redirectf, setRedirectf] = useState(true);
 
   const [open, setOpen] = useState(false);
   const handleClose = (event, reason) => {
@@ -90,8 +84,12 @@ export default function LogIn({ setPopup, setIflogin }) {
         content
       )
       .then(function (res) {
+        console.log(res);
         localStorage.setItem("Token", res.data.token);
-        localStorage.setItem("User", res.data.user);
+        localStorage.setItem(
+          "User",
+          res.data.first_name + " " + res.data.last_name
+        );
         localStorage.setItem("IfLogged_in", true);
         setLoginf(true);
         setErrorf(false);
@@ -105,6 +103,8 @@ export default function LogIn({ setPopup, setIflogin }) {
 
     setOpen(true);
   };
+
+  console.log(loginf);
 
   // if (errorf === false && loginf === true) {
   //   setPopup(false);

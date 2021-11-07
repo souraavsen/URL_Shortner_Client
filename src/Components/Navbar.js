@@ -69,7 +69,6 @@ const Navbar = () => {
                 <div className='flex flex-row justify-center items-center'>
                   <AccountCircleIcon />
                   <p className='text-base ml-2'>
-                    Hey,{" "}
                     <span className='text-xl text-blue-400'>
                       {localStorage.getItem("User")}
                     </span>
